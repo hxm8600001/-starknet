@@ -1,0 +1,47 @@
+要自动登录谷歌账号并处理垃圾信息，你需要使用Selenium库来模拟浏览器操作。以下是一段Python代码示例，可以实现自动登录谷歌账号、处理垃圾信息并退出账号：
+
+```python
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# 设置浏览器驱动路径
+driver_path = 'path_to_chromedriver'
+
+# 创建谷歌浏览器实例
+driver = webdriver.Chrome(executable_path=driver_path)
+
+# 打开谷歌登录页面
+driver.get('https://accounts.google.com')
+
+# 输入谷歌账号和密码
+email_input = driver.find_element(By.ID, 'identifierId')
+email_input.send_keys('your_email@gmail.com')
+email_input.send_keys(Keys.ENTER)
+
+# 等待密码输入框加载完成
+password_input = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.NAME, 'password'))
+)
+
+# 输入账号密码
+password_input.send_keys('your_password')
+password_input.send_keys(Keys.ENTER)
+
+# 等待登录完成
+WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CLASS_NAME, 'gb_fa'))
+)
+
+# 登录成功后进行垃圾信息处理，这里可以根据具体情况编写代码，例如删除垃圾邮件等操作
+
+# 退出账号
+driver.get('https://accounts.google.com/logout')
+
+# 关闭浏览器
+driver.quit()
+```
+
+请确保你已经安装了Selenium库，并将路径 `path_to_chromedriver` 替换为你本地的Chrome驱动程序路径。另外，还需要将 `your_email@gmail.com` 和 `your_password` 替换为你的谷歌账号和密码。请注意，自动登录并处理垃圾信息涉及到个人敏感信息，请谨慎使用和保护好你的代码。
